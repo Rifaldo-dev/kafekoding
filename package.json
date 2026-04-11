@@ -1,0 +1,41 @@
+{
+  "name": "kafekoding-web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:secure": "node scripts/secure-build.js && vite build",
+    "build:vercel": "npm run build",
+    "clean:maps": "find dist -name '*.map' -type f -delete",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "preview:secure": "vite preview",
+    "security:check": "node scripts/security-check.js",
+    "deploy:vercel": "vercel --prod",
+    "deploy:preview": "vercel"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.2.0",
+    "lucide-react": "^1.7.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^7.14.0",
+    "tailwindcss": "^3.4.19"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.4.0",
+    "postcss": "^8.4.31",
+    "terser": "^5.46.1",
+    "vite": "^8.0.4"
+  }
+}

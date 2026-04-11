@@ -1,0 +1,15 @@
+# Netlify/Vercel redirects for security
+# Prevent access to source files and sensitive directories
+
+# Block source files
+/src/* /404.html 404
+/database/* /404.html 404
+/node_modules/* /404.html 404
+/.env* /404.html 404
+/*.config.* /404.html 404
+/*.md /404.html 404
+/*.json /404.html 404
+/*.map /404.html 404
+
+# SPA fallback for valid routes
+/*    /index.html   200

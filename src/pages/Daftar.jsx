@@ -9,7 +9,7 @@ import {
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { submitRegistration, fetchClasses } from '../services/api';
-import { CLASSES_DATA, INSTITUTIONS_DATA } from '../data/constants';
+import { CLASSES_DATA, INSTITUTIONS_DATA, ASSETS } from '../data/constants';
 
 const Daftar = () => {
   const [selectedClasses, setSelectedClasses] = useState([]);
@@ -250,22 +250,7 @@ const Daftar = () => {
       console.log('[DAFTAR] Registration data:', registrationData);
       setFormSubmitted(true);
       
-      // Auto-reset form after 5 seconds
-      setTimeout(() => {
-        setFormSubmitted(false);
-        setSelectedClasses([]);
-        setFileName("");
-        if (filePreview) {
-          URL.revokeObjectURL(filePreview);
-        }
-        setFilePreview(null);
-        setFormData({
-          fullName: "",
-          whatsappNumber: "",
-          institution: "",
-          instagramProofUrl: ""
-        });
-      }, 5000);
+      // We no longer auto-reset so the user can see and download their ticket.
     } catch (error) {
       console.error('Registration error:', error);
       
@@ -298,6 +283,19 @@ const Daftar = () => {
     };
   }, [filePreview]);
 
+  // Auto-download ticket when form is submitted successfully
+  useEffect(() => {
+    if (formSubmitted) {
+      const timer = setTimeout(() => {
+        const btn = document.getElementById('btn-download');
+        if (btn && !btn.disabled) {
+          btn.click();
+        }
+      }, 800); // delay to let css and images render properly
+      return () => clearTimeout(timer);
+    }
+  }, [formSubmitted]);
+
   return (
     <div className="min-h-screen bg-white font-sans text-slate-800 flex flex-col overflow-x-hidden">
       <Navbar />
@@ -308,22 +306,114 @@ const Daftar = () => {
           <div className="absolute top-0 right-0 w-48 h-48 bg-blue-600 opacity-5 -mr-24 -mt-24 rounded-full"></div>
           
           {formSubmitted ? (
-             <div className="text-center py-16 space-y-6">
+             <div className="text-center py-8 space-y-8 w-full max-w-2xl mx-auto">
                 <div className="flex justify-center">
                   <i className="fas fa-check-circle text-green-500 text-6xl animate-bounce"></i>
                 </div>
-                <h4 className="text-3xl font-black text-slate-900">Berhasil Terdaftar!</h4>
-                <p className="font-bold text-slate-400 text-sm">Terima kasih telah memilih untuk turun tangan. Tunggu undangan admin via WhatsApp.</p>
-                <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-2xl text-sm">
-                  <p><strong>Data Anda:</strong></p>
-                  <p><i className="fas fa-user mr-2"></i>Nama: {formData.fullName}</p>
-                  <p><i className="fas fa-phone mr-2"></i>WhatsApp: {formData.whatsappNumber}</p>
-                  <p><i className="fas fa-university mr-2"></i>Institusi: {INSTITUTIONS_DATA.find(inst => inst.value === formData.institution)?.label || formData.institution}</p>
-                  <p><i className="fas fa-graduation-cap mr-2"></i>Kelas: {selectedClasses.map(c => c.title).join(', ')}</p>
+                <div>
+                  <h4 className="text-3xl font-black text-slate-900 mb-2">Pendaftaran Berhasil!</h4>
+                  <p className="font-medium text-slate-500">Terima kasih telah bergabung. Berikut adalah tiket digital Anda.</p>
                 </div>
-                <button onClick={() => setFormSubmitted(false)} className="bg-blue-600 text-white px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-wide shadow-lg">
-                  <i className="fas fa-plus mr-2"></i>Daftar Lagi
-                </button>
+                
+                {/* INVOICE / TICKET CARD */}
+                <div className="flex justify-center w-full">
+                  <div id="invoice-ticket" className="bg-white border-2 border-slate-200 rounded-3xl p-8 max-w-md w-full shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] relative overflow-hidden text-left">
+                    {/* decorative circles */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600 opacity-5 rounded-full -mr-16 -mt-16"></div>
+                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-blue-600 opacity-5 rounded-full -ml-12 -mb-12"></div>
+                    
+                    {/* Header Ticket */}
+                    <div className="flex items-center justify-between border-b-2 border-dashed border-slate-200 pb-6 mb-6 relative">
+                      <div className="absolute -left-10 bottom-0 w-6 h-6 bg-slate-50 rounded-full translate-y-1/2 border-r-2 border-slate-200"></div>
+                      <div className="absolute -right-10 bottom-0 w-6 h-6 bg-slate-50 rounded-full translate-y-1/2 border-l-2 border-slate-200"></div>
+                      
+                      <div className="flex items-center gap-3 relative z-10">
+                        <img src={ASSETS.LOGO} alt="KafeKoding Logo" className="w-10 h-10 object-contain drop-shadow-sm" crossOrigin="anonymous" />
+                        <div>
+                          <h5 className="font-black text-slate-900 leading-tight">KafeKoding</h5>
+                          <p className="text-[10px] text-blue-600 font-bold uppercase tracking-widest">Tiket Masuk</p>
+                        </div>
+                      </div>
+                      <div className="text-right relative z-10">
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">Tanggal</p>
+                        <p className="text-sm font-black text-slate-900">{new Date().toLocaleDateString('id-ID')}</p>
+                      </div>
+                    </div>
+                    
+                    {/* Content Ticket */}
+                    <div className="space-y-5 relative z-10">
+                      <div>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">Nama Peserta</p>
+                        <p className="font-black text-slate-900 text-lg uppercase">{formData.fullName}</p>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">No. WhatsApp</p>
+                          <p className="font-bold text-slate-700">{formData.whatsappNumber}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">Institusi</p>
+                          <p className="font-bold text-slate-700 truncate" title={INSTITUTIONS_DATA.find(inst => inst.value === formData.institution)?.label || formData.institution}>
+                            {INSTITUTIONS_DATA.find(inst => inst.value === formData.institution)?.label || formData.institution}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className="pt-2">
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-2">Kelas Pilihan</p>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedClasses.map((c, i) => (
+                            <span key={i} className="px-3 py-1.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg text-xs font-bold tracking-wide">
+                              {c.title}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Footer Ticket */}
+                    <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-center relative z-10">
+                      <p className="text-[10px] text-slate-400 text-center uppercase tracking-wider font-semibold">Tunjukkan tiket ini ke Admin</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8 pt-4">
+                  <button 
+                    onClick={() => {
+                      const btn = document.getElementById('btn-download');
+                      const originalText = btn.innerHTML;
+                      btn.innerHTML = '<i class="fas fa-spinner fa-spin text-lg"></i> Menyiapkan...';
+                      btn.disabled = true;
+                      
+                      const invoiceElement = document.getElementById('invoice-ticket');
+                      if (!invoiceElement) return;
+                      import('html2canvas').then(html2canvas => {
+                        html2canvas.default(invoiceElement, { scale: 3, backgroundColor: '#ffffff', useCORS: true }).then(canvas => {
+                          const link = document.createElement('a');
+                          link.download = `Tiket-KafeKoding-${formData.fullName.replace(/\s+/g, '-')}.png`;
+                          link.href = canvas.toDataURL('image/png');
+                          link.click();
+                          
+                          btn.innerHTML = originalText;
+                          btn.disabled = false;
+                        });
+                      }).catch(() => {
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                        alert('Gagal mendownload tiket');
+                      });
+                    }} 
+                    id="btn-download"
+                    className="bg-slate-900 text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-wider shadow-xl hover:bg-slate-800 hover:-translate-y-1 transition-all flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    <i className="fas fa-download text-lg"></i> Download Tiket
+                  </button>
+                  <button onClick={() => setFormSubmitted(false)} className="bg-blue-600 text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-wider shadow-xl hover:bg-blue-700 hover:-translate-y-1 transition-all flex items-center justify-center gap-3">
+                    <i className="fas fa-plus text-lg"></i> Daftar Lagi
+                  </button>
+                </div>
              </div>
           ) : (
              <form onSubmit={handleSubmit} className="space-y-8 relative z-10 font-bold">

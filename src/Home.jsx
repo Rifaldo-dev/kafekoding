@@ -1,4 +1,5 @@
 import { useState, useEffect, memo, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { 
   ArrowRight, 
   ChevronRight,
@@ -158,12 +159,14 @@ const Home = memo(() => {
     try {
       setIsLoadingClasses(true);
       console.log('[HOME] Loading classes from API...');
-      // Temporarily disable API call to prevent errors
-      // const classesData = await fetchClasses();
+      const classesData = await fetchClasses();
       
-      // Use fallback data for now
-      console.log('[HOME] Using fallback data from constants.js');
-      setClasses(CLASSES_DATA);
+      if (classesData && classesData.length > 0) {
+        setClasses(classesData);
+      } else {
+        console.log('[HOME] Using fallback data from constants.js');
+        setClasses(CLASSES_DATA);
+      }
     } catch (error) {
       console.error('[HOME] Failed to load classes:', error);
       console.log('[HOME] Using fallback data from constants.js');
@@ -196,16 +199,21 @@ const Home = memo(() => {
             <div className="hero-background-overlay"></div>
           </div>
           
-          <div className="hero-content">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="hero-content"
+          >
             <h1 className="hero-title">
               Welcome to <span className="hero-title-highlight">Kafekoding</span>
             </h1>
             
-            <p className="hero-description">
+            <p className="hero-description mx-auto text-center">
               Selamat datang di Website Resmi. Media informasi, koordinasi, dan aspirasi seluruh anggota KafeKoding Community.
             </p>
             
-            <div className="hero-buttons">
+            <div className="hero-buttons justify-center mt-8">
               <a href="/daftar" className="hero-btn-primary">
                 Gabung Komunitas
               </a>
@@ -220,23 +228,36 @@ const Home = memo(() => {
                 Pelajari Lebih Lanjut
               </a>
             </div>
-          </div>
+          </motion.div>
         </section>
 
         <section className="bg-blue-600 py-12 text-white">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 lg:grid-cols-4 gap-8">
             {STATS_DATA.map((stat, i) => (
-              <div key={i} className="text-center">
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="text-center"
+              >
                 <div className="text-3xl font-bold mb-1">{stat.value}</div>
                 <div className="text-sm opacity-80">{stat.label}</div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
 
         <section id="tentang" className="bg-blue-50 py-16 px-6">
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
-            <div className="lg:w-1/2 text-center lg:text-left">
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="lg:w-1/2 text-center lg:text-left"
+            >
               <h2 className="text-3xl font-bold text-slate-900 mb-4">Tentang Kami</h2>
               <p className="text-lg text-blue-600 mb-6 font-medium">"Kami Memilih Turun Tangan"</p>
               
@@ -244,14 +265,20 @@ const Home = memo(() => {
                 <img src={ASSETS.ABOUT_IMAGE} className="rounded-xl shadow-lg h-48 w-full max-w-sm object-cover" alt="Dokumentasi KafeKoding" />
               </div>
               
-              <div className="space-y-4 text-slate-600 leading-relaxed mb-8">
+              <div className="space-y-4 text-slate-600 leading-relaxed text-justify mb-8">
                 <p>Komunitas Kafe Koding merupakan wadah belajar dan berbagi di bidang teknologi informasi yang berfokus pada pengembangan kemampuan anggota secara individu maupun tim sesuai kebutuhan industri. Dengan semangat kolaborasi, komunitas ini menyediakan lingkungan yang aktif, sehat, dan produktif bagi mahasiswa maupun masyarakat umum untuk berdiskusi, berlatih, serta mengembangkan keterampilan di dunia IT.</p>
                 <p>Kafe Koding juga berkomitmen untuk membangun hubungan yang kuat dengan kampus dan komunitas teknologi lainnya, serta menciptakan ekosistem pembelajaran yang inklusif melalui kegiatan belajar bersama, proyek kolaboratif, dan pengembangan media informasi. Dengan demikian, komunitas ini diharapkan mampu menghasilkan anggota yang kompeten, profesional, serta berkontribusi aktif dalam perkembangan teknologi, khususnya di Sumatera Barat.</p>
               </div>
-            </div>
-            <div className="hidden lg:block lg:w-1/2 grid grid-cols-1 gap-4">
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="hidden lg:block lg:w-1/2 grid grid-cols-1 gap-4"
+            >
               <img src={ASSETS.ABOUT_IMAGE} className="rounded-xl shadow-lg h-64 object-cover w-full" alt="Dokumentasi KafeKoding" />
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -275,7 +302,14 @@ const Home = memo(() => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="sm:hidden">
                 {classes.slice(0, showAllClasses ? classes.length : 4).map((cls, i) => (
-                  <div key={cls.id} className={`p-6 rounded-2xl border bg-white transition-all group ${cls.is_active ? 'border-slate-200 hover:shadow-lg hover:border-blue-200' : 'border-orange-200 bg-orange-50/30'} mb-6`}>
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    key={cls.id} 
+                    className={`p-6 rounded-2xl border bg-white transition-all group ${cls.is_active ? 'border-slate-200 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300' : 'border-orange-200 bg-orange-50/30'} mb-6`}
+                  >
                     <div className={`mb-6 p-4 rounded-xl transition-colors flex items-center justify-center ${cls.is_active ? 'bg-slate-50 group-hover:bg-blue-50' : 'bg-orange-100'}`}>
                       <img src={cls.icon_path} alt={cls.title} className={`w-10 h-10 object-contain ${!cls.is_active ? 'opacity-60' : ''}`} />
                     </div>
@@ -288,14 +322,21 @@ const Home = memo(() => {
                         Kelas Sedang Tidak Aktif
                       </div>
                     )}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
               
               {/* Desktop: tampilkan semua */}
               <div className="hidden sm:contents">
                 {classes.map((cls, i) => (
-                  <div key={cls.id} className={`p-6 rounded-2xl border bg-white transition-all group ${cls.is_active ? 'border-slate-200 hover:shadow-lg hover:border-blue-200' : 'border-orange-200 bg-orange-50/30'}`}>
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    key={cls.id} 
+                    className={`p-6 rounded-2xl border bg-white transition-all group ${cls.is_active ? 'border-slate-200 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300' : 'border-orange-200 bg-orange-50/30'}`}
+                  >
                     <div className={`mb-6 p-4 rounded-xl transition-colors flex items-center justify-center ${cls.is_active ? 'bg-slate-50 group-hover:bg-blue-50' : 'bg-orange-100'}`}>
                       <img src={cls.icon_path} alt={cls.title} className={`w-10 h-10 object-contain ${!cls.is_active ? 'opacity-60' : ''}`} />
                     </div>
@@ -308,7 +349,7 @@ const Home = memo(() => {
                         Kelas Sedang Tidak Aktif
                       </div>
                     )}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -343,9 +384,16 @@ const Home = memo(() => {
               {/* Mobile: tampilkan berdasarkan state, Desktop: tampilkan semua */}
               <div className="sm:hidden">
                 {MENTORS_DATA.slice(0, showAllMentors ? MENTORS_DATA.length : 4).map((m, i) => (
-                  <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center group hover:shadow-md transition-all mb-6">
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    key={i} 
+                    className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center group hover:shadow-xl hover:-translate-y-1 transition-all mb-6"
+                  >
                     <div className="mb-4">
-                      <img src={m.img} className="w-20 h-20 rounded-full border-2 border-slate-100" alt={m.name} />
+                      <img src={m.img} className="w-20 h-20 rounded-full border-2 border-slate-100 group-hover:border-blue-400 transition-colors" alt={m.name} />
                     </div>
                     <h4 className="font-semibold text-slate-900 mb-3 text-center">{m.name}</h4>
                     <div className="flex flex-wrap justify-center gap-1 mb-4">
@@ -379,16 +427,23 @@ const Home = memo(() => {
                         <LinkedinIcon size={14} />
                       </a>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
               
               {/* Desktop: tampilkan semua */}
               <div className="hidden sm:contents">
                 {MENTORS_DATA.map((m, i) => (
-                  <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center group hover:shadow-md transition-all">
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    key={i} 
+                    className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center group hover:shadow-xl hover:-translate-y-1 transition-all"
+                  >
                     <div className="mb-4">
-                      <img src={m.img} className="w-20 h-20 rounded-full border-2 border-slate-100" alt={m.name} />
+                      <img src={m.img} className="w-20 h-20 rounded-full border-2 border-slate-100 group-hover:border-blue-400 transition-colors" alt={m.name} />
                     </div>
                     <h4 className="font-semibold text-slate-900 mb-3 text-center">{m.name}</h4>
                     <div className="flex flex-wrap justify-center gap-1 mb-4">
@@ -422,7 +477,7 @@ const Home = memo(() => {
                         <LinkedinIcon size={14} />
                       </a>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -455,20 +510,27 @@ const Home = memo(() => {
             <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">Aktivitas KafeKoding</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {BLOG_DATA.map((post, i) => (
-                <div key={post.id} className="group cursor-pointer">
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.2 }}
+                  key={post.id} 
+                  className="group cursor-pointer bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-xl transition-all"
+                >
                   <div className="relative rounded-xl overflow-hidden mb-4 shadow-sm aspect-video">
-                    <img src={post.img} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt="Blog" />
-                    <div className="absolute top-3 left-3 bg-blue-600 text-white text-xs font-medium px-2 py-1 rounded-lg">{post.category}</div>
+                    <img src={post.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Blog" />
+                    <div className="absolute top-3 left-3 bg-blue-600/90 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg">{post.category}</div>
                   </div>
                   <div className="flex items-center gap-2 text-slate-500 text-sm mb-2">
                     <Calendar size={14} className="text-blue-600" /> {post.date}
                   </div>
                   <h3 className="text-lg font-semibold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">{post.title}</h3>
                   <p className="text-slate-600 text-sm line-clamp-2 mb-4">{post.excerpt}</p>
-                  <button className="flex items-center gap-2 text-blue-600 font-medium text-sm hover:gap-3 transition-all">
+                  <button className="flex items-center gap-2 text-blue-600 font-medium text-sm hover:gap-3 transition-all mt-auto">
                     Baca Selengkapnya <ChevronRight size={16} />
                   </button>
-                </div>
+                </motion.div>
               ))}
             </div>
             

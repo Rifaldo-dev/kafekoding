@@ -8,14 +8,9 @@ database/api
 database/scripts
 scripts
 
-# Config files
-*.config.js
-*.config.cjs
-*.config.ts
-tailwind.config.cjs
-postcss.config.cjs
+# Config files (keep build-critical configs)
 eslint.config.js
-vite.config.js
+# DO NOT ignore: vite.config.js, tailwind.config.cjs, postcss.config.cjs (needed for build)
 
 # Environment files
 .env*

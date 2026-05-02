@@ -4,10 +4,12 @@ import {
   ArrowRight, 
   ChevronRight,
   Calendar, 
-  ChevronUp
+  ChevronUp,
+  User
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { ASSETS, STATS_DATA, CLASSES_DATA, MENTORS_DATA, BLOG_DATA } from './data/constants';
-import { fetchClasses } from './services/api';
+import { fetchClasses, fetchMediumArticles } from './services/api';
 import { InstagramIcon, GithubIcon, LinkedinIcon } from './components/Icons';
 import { useScrollToTop } from './hooks/useScrollToTop';
 import Navbar from './components/Navbar';
@@ -146,20 +148,30 @@ const Home = memo(() => {
   const [showAllMentors, setShowAllMentors] = useState(false);
   const [classes, setClasses] = useState(CLASSES_DATA); // Start with fallback data immediately
   const [isLoadingClasses, setIsLoadingClasses] = useState(true);
+  const [blogs, setBlogs] = useState(BLOG_DATA);
   const { showBackToTop, scrollToTop } = useScrollToTop();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // AOS initialization removed to fix white page issue
     
     // Load API data in background
     loadClasses();
+    loadBlogs();
   }, []);
 
-  const loadClasses = async () => {
+  const loadBlogs = async () => {
+    const articles = await fetchMediumArticles();
+    if (articles && articles.length > 0) {
+      setBlogs(articles);
+    }
+  };
+
+  const loadClasses = async (forceRefresh = false) => {
     try {
       setIsLoadingClasses(true);
       console.log('[HOME] Loading classes from API...');
-      const classesData = await fetchClasses();
+      const classesData = await fetchClasses(forceRefresh);
       
       if (classesData && classesData.length > 0) {
         setClasses(classesData);
@@ -209,9 +221,6 @@ const Home = memo(() => {
               Welcome to <span className="hero-title-highlight">Kafekoding</span>
             </h1>
             
-            <p className="hero-description mx-auto text-center">
-              Selamat datang di Website Resmi. Media informasi, koordinasi, dan aspirasi seluruh anggota KafeKoding Community.
-            </p>
             
             <div className="hero-buttons justify-center mt-8">
               <a href="/daftar" className="hero-btn-primary">
@@ -287,7 +296,7 @@ const Home = memo(() => {
             <div className="flex justify-between items-center mb-12">
               <h2 className="text-3xl font-bold text-slate-900 mx-auto">Pilihan Kelas</h2>
               <button 
-                onClick={loadClasses}
+                onClick={() => loadClasses(true)}
                 disabled={isLoadingClasses}
                 className={`text-xs px-3 py-2 rounded font-medium transition-colors ${
                   isLoadingClasses 
@@ -509,21 +518,32 @@ const Home = memo(() => {
           <div className="max-w-7xl mx-auto">
             <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">Aktivitas KafeKoding</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {BLOG_DATA.map((post, i) => (
+              {blogs.slice(0, 3).map((post, i) => (
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.2 }}
                   key={post.id} 
-                  className="group cursor-pointer bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-xl transition-all"
+                  onClick={() => navigate(`/blog/${post.id}`)}
+                  className="group cursor-pointer bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-xl transition-all flex flex-col h-full"
                 >
                   <div className="relative rounded-xl overflow-hidden mb-4 shadow-sm aspect-video">
                     <img src={post.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Blog" />
                     <div className="absolute top-3 left-3 bg-blue-600/90 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg">{post.category}</div>
                   </div>
-                  <div className="flex items-center gap-2 text-slate-500 text-sm mb-2">
-                    <Calendar size={14} className="text-blue-600" /> {post.date}
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-slate-500 text-sm mb-2">
+                    {post.author && (
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 border border-slate-200">
+                          <User size={12} />
+                        </div>
+                        <span>{post.author}</span>
+                      </div>
+                    )}
+                    <div className="flex items-center gap-2">
+                      <Calendar size={14} className="text-blue-600" /> {post.date}
+                    </div>
                   </div>
                   <h3 className="text-lg font-semibold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">{post.title}</h3>
                   <p className="text-slate-600 text-sm line-clamp-2 mb-4">{post.excerpt}</p>

@@ -33,16 +33,18 @@ const Daftar = () => {
     loadClasses();
   }, []);
 
-  const loadClasses = useCallback(async () => {
+  const loadClasses = useCallback(async (forceRefresh = false) => {
     try {
       setIsLoadingClasses(true);
       console.log('[DAFTAR] Loading classes from API...');
-      // Temporarily disable API call to prevent errors
-      // const classesData = await fetchClasses();
+      const classesData = await fetchClasses(forceRefresh);
       
-      // Use fallback data for now
-      console.log('[DAFTAR] Using fallback data from constants.js');
-      setClasses(CLASSES_DATA);
+      if (classesData && classesData.length > 0) {
+        setClasses(classesData);
+      } else {
+        console.log('[DAFTAR] Using fallback data from constants.js');
+        setClasses(CLASSES_DATA);
+      }
     } catch (error) {
       console.error('[DAFTAR] Failed to load classes:', error);
       console.log('[DAFTAR] Keeping fallback data from constants.js');
@@ -243,11 +245,10 @@ const Daftar = () => {
         }))
       };
 
-      // Temporarily disable API submission to prevent errors
-      // const result = await submitRegistration(registrationData);
+      // Send data to API
+      const result = await submitRegistration(registrationData);
       
-      // Simulate successful submission for now
-      console.log('[DAFTAR] Registration data:', registrationData);
+      console.log('[DAFTAR] Registration successful:', result);
       setFormSubmitted(true);
       
       // We no longer auto-reset so the user can see and download their ticket.
@@ -450,27 +451,23 @@ const Daftar = () => {
                   </div>
                 </div>
                 
-                <div className="space-y-3 text-blue-600">
-                  <label className="text-xs uppercase ml-1 font-bold">Asal Institusi <span className="text-red-500">*</span></label>
+                <div className="space-y-3">
+                  <label className="text-xs uppercase ml-1 font-bold text-blue-600">Asal Institusi <span className="text-red-500">*</span></label>
                   <div className="relative">
-                    <select 
+                    <input 
                       required 
+                      type="text"
+                      list="institutions-list"
                       value={formData.institution}
                       onChange={(e) => handleInputChange('institution', e.target.value)}
-                      className="w-full px-6 py-5 bg-white border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-600 transition-all text-sm shadow-sm font-bold appearance-none cursor-pointer pr-12" 
-                    >
-                      <option value="">Pilih Institusi...</option>
+                      className="w-full px-6 py-5 bg-white border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-600 transition-all text-sm shadow-sm font-bold" 
+                      placeholder="Ketik asal institusi Anda..." 
+                    />
+                    <datalist id="institutions-list">
                       {INSTITUTIONS_DATA.map(institution => (
-                        <option key={institution.value} value={institution.value}>
-                          {institution.label}
-                        </option>
+                        <option key={institution.value} value={institution.label} />
                       ))}
-                    </select>
-                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                      <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </div>
+                    </datalist>
                   </div>
                 </div>
 
@@ -532,7 +529,7 @@ const Daftar = () => {
                     <label className="text-xs uppercase text-slate-900 font-bold">Pilih Kelas (Maks. 2, satu per sesi waktu) <span className="text-red-500">*</span></label>
                     <button 
                       type="button"
-                      onClick={loadClasses}
+                      onClick={() => loadClasses(true)}
                       disabled={isLoadingClasses}
                       className={`text-xs px-2 py-1 rounded font-medium transition-colors ${
                         isLoadingClasses 

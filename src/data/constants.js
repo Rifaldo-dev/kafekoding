@@ -48,7 +48,7 @@ export const CLASSES_DATA = [
   { 
     id: 5, 
     title: "Python", 
-    schedule_time: "Senin, 19:00 - 21:00 WIB", 
+    schedule_time: "Sabtu, 19:00 - 21:00 WIB", 
     icon_path: "/assets/icons/python.png", 
     iconColor: "text-blue-600", 
     is_active: false 
@@ -56,7 +56,7 @@ export const CLASSES_DATA = [
   { 
     id: 6, 
     title: "UI/UX Design", 
-    schedule_time: "Selasa, 19:00 - 21:00 WIB", 
+    schedule_time: "Sabtu, 19:00 - 21:00 WIB", 
     icon_path: "/assets/icons/uiux.png", 
     iconColor: "text-pink-500", 
     is_active: false 
@@ -64,7 +64,7 @@ export const CLASSES_DATA = [
   { 
     id: 7, 
     title: "Laravel", 
-    schedule_time: "Rabu, 19:00 - 21:00 WIB", 
+    schedule_time: "Sabtu, 19:00 - 21:00 WIB", 
     icon_path: "/assets/icons/laravel.png", 
     iconColor: "text-red-500", 
     is_active: false 
@@ -72,7 +72,7 @@ export const CLASSES_DATA = [
   { 
     id: 8, 
     title: "Desain Grafis", 
-    schedule_time: "Kamis, 19:00 - 21:00 WIB", 
+    schedule_time: "Sabtu, 19:00 - 21:00 WIB", 
     icon_path: "/assets/icons/DesainGrafis.png", 
     iconColor: "text-purple-500", 
     is_active: false 

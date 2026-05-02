@@ -178,17 +178,63 @@ preloadClasses();
 // Create instance
 const apiService = new ApiService();
 
-export const fetchClasses = async () => {
-  // Try to get cached data first
-  if (cachedClasses && (Date.now() - cacheTimestamp) < CACHE_DURATION) {
+export const fetchClasses = async (forceRefresh = false) => {
+  // Try to get cached data first unless forced
+  if (!forceRefresh && cachedClasses && (Date.now() - cacheTimestamp) < CACHE_DURATION) {
     console.log('[API] Using cached classes data');
     return cachedClasses;
   }
   
-  return apiService.getClasses();
+  const classes = await apiService.getClasses();
+  if (classes && classes.length > 0) {
+    cachedClasses = classes;
+    cacheTimestamp = Date.now();
+  }
+  return classes;
 };
 export const fetchMentors = () => apiService.getMentors();
 export const fetchBlogArticles = (page, limit) => apiService.getBlogArticles(page, limit);
+
+export const fetchMediumArticles = async () => {
+  try {
+    const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/kafekoding');
+    const data = await response.json();
+    
+    if (data.status === 'ok') {
+      return data.items.map((item, index) => {
+        let img = item.thumbnail;
+        if (!img) {
+          const imgMatch = item.content.match(/<img[^>]+src="([^">]+)"/);
+          img = imgMatch ? imgMatch[1] : 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=400';
+        }
+        
+        const date = new Date(item.pubDate).toLocaleDateString('id-ID', {
+          day: '2-digit', month: 'short', year: 'numeric'
+        });
+        
+        // Remove tracking pixel img at the end if it exists
+        let cleanContent = item.content.replace(/<img[^>]+src="https:\/\/medium\.com\/_\/stat[^>]+>/g, '');
+        
+        return {
+          id: item.guid ? item.guid.split('/').pop() : `medium-${index}`,
+          title: item.title,
+          date: date,
+          author: item.author || 'KafeKoding',
+          excerpt: cleanContent.replace(/<[^>]+>/g, '').substring(0, 150) + '...',
+          content: cleanContent,
+          link: item.link,
+          img: img,
+          category: item.categories && item.categories.length > 0 ? item.categories[0] : 'Blog',
+          readTime: Math.ceil(cleanContent.replace(/<[^>]+>/g, '').split(' ').length / 200) + ' min'
+        };
+      });
+    }
+    return [];
+  } catch (error) {
+    console.error('Failed to fetch from Medium:', error);
+    return [];
+  }
+};
 export const submitRegistration = (data) => apiService.submitRegistration(data);
 export const uploadFile = (file) => apiService.uploadFile(file);
 export const checkApiHealth = () => apiService.checkHealth();

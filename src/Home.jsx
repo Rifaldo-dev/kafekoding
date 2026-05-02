@@ -203,8 +203,8 @@ const Home = memo(() => {
           </div>
         </section>
 
-        <section id="tentang" className="bg-blue-50 py-16 px-6">
-          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
+        <section id="tentang" className="bg-blue-50 py-12 px-6 md:py-16">
+          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-8 md:gap-12">
             <motion.div 
               initial="hidden"
               whileInView="visible"
@@ -214,21 +214,21 @@ const Home = memo(() => {
             >
               <motion.h2 
                 variants={fadeInUpVariants}
-                className="text-3xl font-bold text-slate-900 mb-4"
+                className="text-2xl md:text-3xl font-bold text-slate-900 mb-3 md:mb-4"
               >
                 Tentang Kami
               </motion.h2>
               <motion.p 
                 variants={fadeInUpVariants}
-                className="text-lg text-blue-600 mb-6 font-medium"
+                className="text-base md:text-lg text-blue-600 mb-4 md:mb-6 font-medium"
               >
                 "Kami Memilih Turun Tangan"
               </motion.p>
               
-              <div className="lg:hidden mb-8 flex justify-center">
+              <div className="lg:hidden mb-6 md:mb-8 flex justify-center">
                 <motion.img 
                   src={ASSETS.ABOUT_IMAGE} 
-                  className="rounded-xl shadow-lg h-48 w-full max-w-sm object-cover" 
+                  className="rounded-xl shadow-lg h-40 md:h-48 w-full max-w-sm object-cover" 
                   alt="Dokumentasi KafeKoding"
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
@@ -238,15 +238,15 @@ const Home = memo(() => {
               </div>
               
               <motion.div 
-                className="space-y-4 text-slate-600 leading-relaxed text-justify mb-8"
+                className="space-y-3 md:space-y-4 text-slate-600 leading-relaxed text-justify mb-6 md:mb-8 text-sm md:text-base"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
               >
                 {[
-                  "Komunitas Kafe Koding merupakan wadah belajar dan berbagi di bidang teknologi informasi yang berfokus pada pengembangan kemampuan anggota secara individu maupun tim sesuai kebutuhan industri. Dengan semangat kolaborasi, komunitas ini menyediakan lingkungan yang aktif, sehat, dan produktif bagi mahasiswa maupun masyarakat umum untuk berdiskusi, berlatih, serta mengembangkan keterampilan di dunia IT.",
-                  "Kafe Koding juga berkomitmen untuk membangun hubungan yang kuat dengan kampus dan komunitas teknologi lainnya, serta menciptakan ekosistem pembelajaran yang inklusif melalui kegiatan belajar bersama, proyek kolaboratif, dan pengembangan media informasi. Dengan demikian, komunitas ini diharapkan mampu menghasilkan anggota yang kompeten, profesional, serta berkontribusi aktif dalam perkembangan teknologi, khususnya di Sumatera Barat."
+                  "Komunitas Kafe Koding merupakan wadah belajar dan berbagi di bidang teknologi informasi yang berfokus pada pengembangan kemampuan anggota secara individu maupun tim sesuai kebutuhan industri.",
+                  "Dengan semangat kolaborasi, komunitas ini menyediakan lingkungan yang aktif, sehat, dan produktif bagi mahasiswa maupun masyarakat umum untuk berdiskusi, berlatih, serta mengembangkan keterampilan di dunia IT."
                 ].map((text, i) => (
                   <motion.p key={i} variants={itemVariants}>
                     {text}
@@ -272,16 +272,16 @@ const Home = memo(() => {
           </div>
         </section>
 
-        <section id="kelas" className="py-16 px-6 bg-white">
+        <section id="kelas" className="py-12 md:py-16 px-6 bg-white">
           <div className="max-w-7xl mx-auto text-center">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5 }}
-              className="flex justify-between items-center mb-12"
+              className="flex justify-between items-center mb-8 md:mb-12"
             >
-              <h2 className="text-3xl font-bold text-slate-900 mx-auto">Pilihan Kelas</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mx-auto">Pilihan Kelas</h2>
               <button 
                 onClick={() => loadClasses(true)}
                 disabled={isLoadingClasses}
@@ -295,7 +295,7 @@ const Home = memo(() => {
                 {isLoadingClasses ? 'Loading...' : 'Refresh'}
               </button>
             </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               <div className="sm:hidden">
                 {classes.slice(0, showAllClasses ? classes.length : 4).map((cls, i) => (
                   <motion.div 
@@ -304,18 +304,18 @@ const Home = memo(() => {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.4, delay: i * 0.1 }}
-                    className={`p-6 rounded-2xl border bg-white transition-all group ${cls.is_active ? 'border-slate-200 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300' : 'border-orange-200 bg-orange-50/30'} mb-6`}
+                    className={`p-4 md:p-6 rounded-2xl border bg-white transition-all group ${cls.is_active ? 'border-slate-200 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300' : 'border-orange-200 bg-orange-50/30'} mb-4`}
                   >
-                    <div className={`mb-6 p-4 rounded-xl transition-colors flex items-center justify-center ${cls.is_active ? 'bg-slate-50 group-hover:bg-blue-50' : 'bg-orange-100'}`}>
-                      <img src={cls.icon_path} alt={cls.title} className={`w-10 h-10 object-contain ${!cls.is_active ? 'opacity-60' : ''}`} />
+                    <div className={`mb-4 md:mb-6 p-3 md:p-4 rounded-xl transition-colors flex items-center justify-center ${cls.is_active ? 'bg-slate-50 group-hover:bg-blue-50' : 'bg-orange-100'}`}>
+                      <img src={cls.icon_path} alt={cls.title} className={`w-8 md:w-10 h-8 md:h-10 object-contain ${!cls.is_active ? 'opacity-60' : ''}`} />
                     </div>
-                    <h3 className={`text-lg font-semibold mb-2 ${cls.is_active ? 'text-slate-900' : 'text-slate-600'}`}>{cls.title}</h3>
-                    <p className={`text-sm mb-6 ${cls.is_active ? 'text-slate-500' : 'text-slate-400'}`}>{cls.schedule_time}</p>
+                    <h3 className={`text-base md:text-lg font-semibold mb-2 ${cls.is_active ? 'text-slate-900' : 'text-slate-600'}`}>{cls.title}</h3>
+                    <p className={`text-xs md:text-sm mb-4 md:mb-6 ${cls.is_active ? 'text-slate-500' : 'text-slate-400'}`}>{cls.schedule_time}</p>
                     {cls.is_active ? (
-                      <a href="/daftar" className="block w-full py-3 bg-blue-600 text-white rounded-xl font-medium text-sm hover:bg-blue-700 transition-colors text-center">Pilih Kelas</a>
+                      <a href="/daftar" className="block w-full py-2 md:py-3 bg-blue-600 text-white rounded-xl font-medium text-xs md:text-sm hover:bg-blue-700 transition-colors text-center">Pilih Kelas</a>
                     ) : (
-                      <div className="w-full py-3 bg-orange-100 text-orange-600 rounded-xl font-medium text-sm text-center border border-orange-200">
-                        Kelas Sedang Tidak Aktif
+                      <div className="w-full py-2 md:py-3 bg-orange-100 text-orange-600 rounded-xl font-medium text-xs md:text-sm text-center border border-orange-200">
+                        Tidak Aktif
                       </div>
                     )}
                   </motion.div>
@@ -331,18 +331,18 @@ const Home = memo(() => {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.4, delay: i * 0.1 }}
-                    className={`p-6 rounded-2xl border bg-white transition-all group ${cls.is_active ? 'border-slate-200 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300' : 'border-orange-200 bg-orange-50/30'}`}
+                    className={`p-4 md:p-6 rounded-2xl border bg-white transition-all group ${cls.is_active ? 'border-slate-200 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300' : 'border-orange-200 bg-orange-50/30'}`}
                   >
-                    <div className={`mb-6 p-4 rounded-xl transition-colors flex items-center justify-center ${cls.is_active ? 'bg-slate-50 group-hover:bg-blue-50' : 'bg-orange-100'}`}>
-                      <img src={cls.icon_path} alt={cls.title} className={`w-10 h-10 object-contain ${!cls.is_active ? 'opacity-60' : ''}`} />
+                    <div className={`mb-4 md:mb-6 p-3 md:p-4 rounded-xl transition-colors flex items-center justify-center ${cls.is_active ? 'bg-slate-50 group-hover:bg-blue-50' : 'bg-orange-100'}`}>
+                      <img src={cls.icon_path} alt={cls.title} className={`w-8 md:w-10 h-8 md:h-10 object-contain ${!cls.is_active ? 'opacity-60' : ''}`} />
                     </div>
-                    <h3 className={`text-lg font-semibold mb-2 ${cls.is_active ? 'text-slate-900' : 'text-slate-600'}`}>{cls.title}</h3>
-                    <p className={`text-sm mb-6 ${cls.is_active ? 'text-slate-500' : 'text-slate-400'}`}>{cls.schedule_time}</p>
+                    <h3 className={`text-base md:text-lg font-semibold mb-2 ${cls.is_active ? 'text-slate-900' : 'text-slate-600'}`}>{cls.title}</h3>
+                    <p className={`text-xs md:text-sm mb-4 md:mb-6 ${cls.is_active ? 'text-slate-500' : 'text-slate-400'}`}>{cls.schedule_time}</p>
                     {cls.is_active ? (
-                      <a href="/daftar" className="block w-full py-3 bg-blue-600 text-white rounded-xl font-medium text-sm hover:bg-blue-700 transition-colors text-center">Pilih Kelas</a>
+                      <a href="/daftar" className="block w-full py-2 md:py-3 bg-blue-600 text-white rounded-xl font-medium text-xs md:text-sm hover:bg-blue-700 transition-colors text-center">Pilih Kelas</a>
                     ) : (
-                      <div className="w-full py-3 bg-orange-100 text-orange-600 rounded-xl font-medium text-sm text-center border border-orange-200">
-                        Kelas Sedang Tidak Aktif
+                      <div className="w-full py-2 md:py-3 bg-orange-100 text-orange-600 rounded-xl font-medium text-xs md:text-sm text-center border border-orange-200">
+                        Tidak Aktif
                       </div>
                     )}
                   </motion.div>
@@ -373,18 +373,18 @@ const Home = memo(() => {
         </section>
 
         {/* MENTOR */}
-        <section id="mentor" className="bg-blue-50 py-16 px-6">
+        <section id="mentor" className="bg-blue-50 py-12 md:py-16 px-6">
           <div className="max-w-7xl mx-auto text-center">
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5 }}
-              className="text-3xl font-bold text-slate-900 mb-12"
+              className="text-2xl md:text-3xl font-bold text-slate-900 mb-8 md:mb-12"
             >
               Team & Mentor
             </motion.h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
               {/* Mobile: tampilkan berdasarkan state, Desktop: tampilkan semua */}
               <div className="sm:hidden">
                 {MENTORS_DATA.slice(0, showAllMentors ? MENTORS_DATA.length : 4).map((m, i) => (
@@ -394,18 +394,18 @@ const Home = memo(() => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
-                    className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center group hover:shadow-xl hover:-translate-y-1 transition-all mb-6"
+                    className="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center group hover:shadow-xl hover:-translate-y-1 transition-all mb-4"
                   >
                     <motion.div 
-                      className="mb-4"
+                      className="mb-3 md:mb-4"
                       whileHover={{ scale: 1.1 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <img src={m.img} className="w-20 h-20 rounded-full border-2 border-slate-100 group-hover:border-blue-600 transition-colors" alt={m.name} />
+                      <img src={m.img} className="w-16 md:w-20 h-16 md:h-20 rounded-full border-2 border-slate-100 group-hover:border-blue-600 transition-colors" alt={m.name} />
                     </motion.div>
-                    <h4 className="font-semibold text-slate-900 mb-3 text-center">{m.name}</h4>
-                    <div className="flex flex-wrap justify-center gap-1 mb-4">
-                      {m.tags.map(t => <span key={t} className="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-lg">{t}</span>)}
+                    <h4 className="font-semibold text-slate-900 mb-2 md:mb-3 text-center text-sm md:text-base">{m.name}</h4>
+                    <div className="flex flex-wrap justify-center gap-1 mb-3 md:mb-4">
+                      {m.tags.slice(0, 2).map(t => <span key={t} className="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-lg">{t}</span>)}
                     </div>
                     
                     {/* Social Media Icons */}
@@ -414,25 +414,25 @@ const Home = memo(() => {
                         href={m.socials.instagram} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm border border-slate-200"
+                        className="w-7 md:w-8 h-7 md:h-8 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm border border-slate-200"
                       >
-                        <InstagramIcon size={14} />
+                        <InstagramIcon size={12} />
                       </a>
                       <a 
                         href={m.socials.github} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm"
+                        className="w-7 md:w-8 h-7 md:h-8 bg-gray-800 text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm"
                       >
-                        <GithubIcon size={14} />
+                        <GithubIcon size={12} />
                       </a>
                       <a 
                         href={m.socials.linkedin} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm"
+                        className="w-7 md:w-8 h-7 md:h-8 bg-blue-600 text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm"
                       >
-                        <LinkedinIcon size={14} />
+                        <LinkedinIcon size={12} />
                       </a>
                     </div>
                   </motion.div>
@@ -448,17 +448,17 @@ const Home = memo(() => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
-                    className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center group hover:shadow-xl hover:-translate-y-1 transition-all"
+                    className="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center group hover:shadow-xl hover:-translate-y-1 transition-all"
                   >
                     <motion.div 
-                      className="mb-4"
+                      className="mb-3 md:mb-4"
                       whileHover={{ scale: 1.1 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <img src={m.img} className="w-20 h-20 rounded-full border-2 border-slate-100 group-hover:border-blue-600 transition-colors" alt={m.name} />
+                      <img src={m.img} className="w-16 md:w-20 h-16 md:h-20 rounded-full border-2 border-slate-100 group-hover:border-blue-600 transition-colors" alt={m.name} />
                     </motion.div>
-                    <h4 className="font-semibold text-slate-900 mb-3 text-center">{m.name}</h4>
-                    <div className="flex flex-wrap justify-center gap-1 mb-4">
+                    <h4 className="font-semibold text-slate-900 mb-2 md:mb-3 text-center text-sm md:text-base">{m.name}</h4>
+                    <div className="flex flex-wrap justify-center gap-1 mb-3 md:mb-4">
                       {m.tags.map(t => <span key={t} className="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-lg">{t}</span>)}
                     </div>
                     
@@ -468,25 +468,25 @@ const Home = memo(() => {
                         href={m.socials.instagram} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm border border-slate-200"
+                        className="w-7 md:w-8 h-7 md:h-8 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm border border-slate-200"
                       >
-                        <InstagramIcon size={14} />
+                        <InstagramIcon size={12} />
                       </a>
                       <a 
                         href={m.socials.github} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm"
+                        className="w-7 md:w-8 h-7 md:h-8 bg-gray-800 text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm"
                       >
-                        <GithubIcon size={14} />
+                        <GithubIcon size={12} />
                       </a>
                       <a 
                         href={m.socials.linkedin} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm"
+                        className="w-7 md:w-8 h-7 md:h-8 bg-blue-600 text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-sm"
                       >
-                        <LinkedinIcon size={14} />
+                        <LinkedinIcon size={12} />
                       </a>
                     </div>
                   </motion.div>

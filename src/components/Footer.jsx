@@ -1,6 +1,7 @@
 import React from 'react';
 import { Users, Trophy, Code, Star } from 'lucide-react';
 import { ASSETS, NAVIGATION_ITEMS } from '../data/constants';
+import '../css/footer.css';
 
 const Footer = () => {
   const scrollTo = (id) => {

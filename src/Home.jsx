@@ -173,18 +173,15 @@ const Home = memo(() => {
         </section>
 
         <section className="bg-blue-600 py-8 md:py-12 text-white">
-          <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-            <motion.div 
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              className="contents"
-            >
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
               {STATS_DATA.map((stat, i) => (
                 <motion.div 
-                  key={i} 
-                  variants={itemVariants}
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
                   className="text-center"
                 >
                   <motion.div 
@@ -199,7 +196,7 @@ const Home = memo(() => {
                   <div className="text-xs md:text-sm opacity-80">{stat.label}</div>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
           </div>
         </section>
 

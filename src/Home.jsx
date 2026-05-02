@@ -296,17 +296,14 @@ const Home = memo(() => {
               </button>
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <motion.div 
-                className="sm:hidden"
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-              >
+              <div className="sm:hidden">
                 {classes.slice(0, showAllClasses ? classes.length : 4).map((cls, i) => (
                   <motion.div 
                     key={cls.id}
-                    variants={scaleVariants}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
                     className={`p-6 rounded-2xl border bg-white transition-all group ${cls.is_active ? 'border-slate-200 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300' : 'border-orange-200 bg-orange-50/30'} mb-6`}
                   >
                     <div className={`mb-6 p-4 rounded-xl transition-colors flex items-center justify-center ${cls.is_active ? 'bg-slate-50 group-hover:bg-blue-50' : 'bg-orange-100'}`}>
@@ -323,20 +320,17 @@ const Home = memo(() => {
                     )}
                   </motion.div>
                 ))}
-              </motion.div>
+              </div>
               
               {/* Desktop: tampilkan semua */}
-              <motion.div 
-                className="hidden sm:contents"
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-              >
+              <div className="hidden sm:contents">
                 {classes.map((cls, i) => (
                   <motion.div 
                     key={cls.id}
-                    variants={scaleVariants}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
                     className={`p-6 rounded-2xl border bg-white transition-all group ${cls.is_active ? 'border-slate-200 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300' : 'border-orange-200 bg-orange-50/30'}`}
                   >
                     <div className={`mb-6 p-4 rounded-xl transition-colors flex items-center justify-center ${cls.is_active ? 'bg-slate-50 group-hover:bg-blue-50' : 'bg-orange-100'}`}>
@@ -353,7 +347,7 @@ const Home = memo(() => {
                     )}
                   </motion.div>
                 ))}
-              </motion.div>
+              </div>
             </div>
             
             {/* See More/Less Button - hanya tampil di mobile */}
@@ -392,17 +386,14 @@ const Home = memo(() => {
             </motion.h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {/* Mobile: tampilkan berdasarkan state, Desktop: tampilkan semua */}
-              <motion.div 
-                className="sm:hidden"
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-              >
+              <div className="sm:hidden">
                 {MENTORS_DATA.slice(0, showAllMentors ? MENTORS_DATA.length : 4).map((m, i) => (
                   <motion.div 
                     key={i}
-                    variants={itemVariants}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
                     className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center group hover:shadow-xl hover:-translate-y-1 transition-all mb-6"
                   >
                     <motion.div 
@@ -446,20 +437,17 @@ const Home = memo(() => {
                     </div>
                   </motion.div>
                 ))}
-              </motion.div>
+              </div>
               
               {/* Desktop: tampilkan semua */}
-              <motion.div 
-                className="hidden sm:contents"
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-              >
+              <div className="hidden sm:contents">
                 {MENTORS_DATA.map((m, i) => (
                   <motion.div 
                     key={i}
-                    variants={itemVariants}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
                     className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center group hover:shadow-xl hover:-translate-y-1 transition-all"
                   >
                     <motion.div 
@@ -503,7 +491,7 @@ const Home = memo(() => {
                     </div>
                   </motion.div>
                 ))}
-              </motion.div>
+              </div>
             </div>
             
             {/* See More/Less Button - hanya tampil di mobile */}

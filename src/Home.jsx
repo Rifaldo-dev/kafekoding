@@ -16,6 +16,63 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import './css/hero.css';
 
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+const slideInVariants = {
+  hidden: { opacity: 0, x: -50 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const slideInRightVariants = {
+  hidden: { opacity: 0, x: 50 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const scaleVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+const fadeInUpVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
 
 
 const Home = memo(() => {
@@ -117,58 +174,113 @@ const Home = memo(() => {
 
         <section className="bg-blue-600 py-12 text-white">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {STATS_DATA.map((stat, i) => (
-              <motion.div 
-                key={i} 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="text-center"
-              >
-                <div className="text-3xl font-bold mb-1">{stat.value}</div>
-                <div className="text-sm opacity-80">{stat.label}</div>
-              </motion.div>
-            ))}
+            <motion.div 
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              className="contents"
+            >
+              {STATS_DATA.map((stat, i) => (
+                <motion.div 
+                  key={i} 
+                  variants={itemVariants}
+                  className="text-center"
+                >
+                  <motion.div 
+                    className="text-3xl font-bold mb-1"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                  >
+                    {stat.value}
+                  </motion.div>
+                  <div className="text-sm opacity-80">{stat.label}</div>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </section>
 
         <section id="tentang" className="bg-blue-50 py-16 px-6">
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
             <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={slideInVariants}
               className="lg:w-1/2 text-center lg:text-left"
             >
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">Tentang Kami</h2>
-              <p className="text-lg text-blue-600 mb-6 font-medium">"Kami Memilih Turun Tangan"</p>
+              <motion.h2 
+                variants={fadeInUpVariants}
+                className="text-3xl font-bold text-slate-900 mb-4"
+              >
+                Tentang Kami
+              </motion.h2>
+              <motion.p 
+                variants={fadeInUpVariants}
+                className="text-lg text-blue-600 mb-6 font-medium"
+              >
+                "Kami Memilih Turun Tangan"
+              </motion.p>
               
               <div className="lg:hidden mb-8 flex justify-center">
-                <img src={ASSETS.ABOUT_IMAGE} className="rounded-xl shadow-lg h-48 w-full max-w-sm object-cover" alt="Dokumentasi KafeKoding" />
+                <motion.img 
+                  src={ASSETS.ABOUT_IMAGE} 
+                  className="rounded-xl shadow-lg h-48 w-full max-w-sm object-cover" 
+                  alt="Dokumentasi KafeKoding"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                />
               </div>
               
-              <div className="space-y-4 text-slate-600 leading-relaxed text-justify mb-8">
-                <p>Komunitas Kafe Koding merupakan wadah belajar dan berbagi di bidang teknologi informasi yang berfokus pada pengembangan kemampuan anggota secara individu maupun tim sesuai kebutuhan industri. Dengan semangat kolaborasi, komunitas ini menyediakan lingkungan yang aktif, sehat, dan produktif bagi mahasiswa maupun masyarakat umum untuk berdiskusi, berlatih, serta mengembangkan keterampilan di dunia IT.</p>
-                <p>Kafe Koding juga berkomitmen untuk membangun hubungan yang kuat dengan kampus dan komunitas teknologi lainnya, serta menciptakan ekosistem pembelajaran yang inklusif melalui kegiatan belajar bersama, proyek kolaboratif, dan pengembangan media informasi. Dengan demikian, komunitas ini diharapkan mampu menghasilkan anggota yang kompeten, profesional, serta berkontribusi aktif dalam perkembangan teknologi, khususnya di Sumatera Barat.</p>
-              </div>
+              <motion.div 
+                className="space-y-4 text-slate-600 leading-relaxed text-justify mb-8"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+              >
+                {[
+                  "Komunitas Kafe Koding merupakan wadah belajar dan berbagi di bidang teknologi informasi yang berfokus pada pengembangan kemampuan anggota secara individu maupun tim sesuai kebutuhan industri. Dengan semangat kolaborasi, komunitas ini menyediakan lingkungan yang aktif, sehat, dan produktif bagi mahasiswa maupun masyarakat umum untuk berdiskusi, berlatih, serta mengembangkan keterampilan di dunia IT.",
+                  "Kafe Koding juga berkomitmen untuk membangun hubungan yang kuat dengan kampus dan komunitas teknologi lainnya, serta menciptakan ekosistem pembelajaran yang inklusif melalui kegiatan belajar bersama, proyek kolaboratif, dan pengembangan media informasi. Dengan demikian, komunitas ini diharapkan mampu menghasilkan anggota yang kompeten, profesional, serta berkontribusi aktif dalam perkembangan teknologi, khususnya di Sumatera Barat."
+                ].map((text, i) => (
+                  <motion.p key={i} variants={itemVariants}>
+                    {text}
+                  </motion.p>
+                ))}
+              </motion.div>
             </motion.div>
             <motion.div 
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={slideInRightVariants}
               className="hidden lg:block lg:w-1/2 grid grid-cols-1 gap-4"
             >
-              <img src={ASSETS.ABOUT_IMAGE} className="rounded-xl shadow-lg h-64 object-cover w-full" alt="Dokumentasi KafeKoding" />
+              <motion.img 
+                src={ASSETS.ABOUT_IMAGE} 
+                className="rounded-xl shadow-lg h-64 object-cover w-full" 
+                alt="Dokumentasi KafeKoding"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
+              />
             </motion.div>
           </div>
         </section>
 
         <section id="kelas" className="py-16 px-6 bg-white">
           <div className="max-w-7xl mx-auto text-center">
-            <div className="flex justify-between items-center mb-12">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5 }}
+              className="flex justify-between items-center mb-12"
+            >
               <h2 className="text-3xl font-bold text-slate-900 mx-auto">Pilihan Kelas</h2>
               <button 
                 onClick={() => loadClasses(true)}
@@ -182,16 +294,19 @@ const Home = memo(() => {
                 <i className={`fas ${isLoadingClasses ? 'fa-spinner fa-spin' : 'fa-sync-alt'} mr-1`}></i>
                 {isLoadingClasses ? 'Loading...' : 'Refresh'}
               </button>
-            </div>
+            </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="sm:hidden">
+              <motion.div 
+                className="sm:hidden"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+              >
                 {classes.slice(0, showAllClasses ? classes.length : 4).map((cls, i) => (
                   <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: i * 0.1 }}
-                    key={cls.id} 
+                    key={cls.id}
+                    variants={scaleVariants}
                     className={`p-6 rounded-2xl border bg-white transition-all group ${cls.is_active ? 'border-slate-200 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300' : 'border-orange-200 bg-orange-50/30'} mb-6`}
                   >
                     <div className={`mb-6 p-4 rounded-xl transition-colors flex items-center justify-center ${cls.is_active ? 'bg-slate-50 group-hover:bg-blue-50' : 'bg-orange-100'}`}>
@@ -208,17 +323,20 @@ const Home = memo(() => {
                     )}
                   </motion.div>
                 ))}
-              </div>
+              </motion.div>
               
               {/* Desktop: tampilkan semua */}
-              <div className="hidden sm:contents">
+              <motion.div 
+                className="hidden sm:contents"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+              >
                 {classes.map((cls, i) => (
                   <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: i * 0.1 }}
-                    key={cls.id} 
+                    key={cls.id}
+                    variants={scaleVariants}
                     className={`p-6 rounded-2xl border bg-white transition-all group ${cls.is_active ? 'border-slate-200 hover:shadow-xl hover:-translate-y-1 hover:border-blue-300' : 'border-orange-200 bg-orange-50/30'}`}
                   >
                     <div className={`mb-6 p-4 rounded-xl transition-colors flex items-center justify-center ${cls.is_active ? 'bg-slate-50 group-hover:bg-blue-50' : 'bg-orange-100'}`}>
@@ -235,7 +353,7 @@ const Home = memo(() => {
                     )}
                   </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
             
             {/* See More/Less Button - hanya tampil di mobile */}
@@ -263,22 +381,37 @@ const Home = memo(() => {
         {/* MENTOR */}
         <section id="mentor" className="bg-blue-50 py-16 px-6">
           <div className="max-w-7xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-slate-900 mb-12">Team & Mentor</h2>
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5 }}
+              className="text-3xl font-bold text-slate-900 mb-12"
+            >
+              Team & Mentor
+            </motion.h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {/* Mobile: tampilkan berdasarkan state, Desktop: tampilkan semua */}
-              <div className="sm:hidden">
+              <motion.div 
+                className="sm:hidden"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+              >
                 {MENTORS_DATA.slice(0, showAllMentors ? MENTORS_DATA.length : 4).map((m, i) => (
                   <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                    key={i} 
+                    key={i}
+                    variants={itemVariants}
                     className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center group hover:shadow-xl hover:-translate-y-1 transition-all mb-6"
                   >
-                    <div className="mb-4">
+                    <motion.div 
+                      className="mb-4"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.3 }}
+                    >
                       <img src={m.img} className="w-20 h-20 rounded-full border-2 border-slate-100 group-hover:border-blue-600 transition-colors" alt={m.name} />
-                    </div>
+                    </motion.div>
                     <h4 className="font-semibold text-slate-900 mb-3 text-center">{m.name}</h4>
                     <div className="flex flex-wrap justify-center gap-1 mb-4">
                       {m.tags.map(t => <span key={t} className="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-lg">{t}</span>)}
@@ -313,22 +446,29 @@ const Home = memo(() => {
                     </div>
                   </motion.div>
                 ))}
-              </div>
+              </motion.div>
               
               {/* Desktop: tampilkan semua */}
-              <div className="hidden sm:contents">
+              <motion.div 
+                className="hidden sm:contents"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+              >
                 {MENTORS_DATA.map((m, i) => (
                   <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                    key={i} 
+                    key={i}
+                    variants={itemVariants}
                     className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center group hover:shadow-xl hover:-translate-y-1 transition-all"
                   >
-                    <div className="mb-4">
+                    <motion.div 
+                      className="mb-4"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.3 }}
+                    >
                       <img src={m.img} className="w-20 h-20 rounded-full border-2 border-slate-100 group-hover:border-blue-600 transition-colors" alt={m.name} />
-                    </div>
+                    </motion.div>
                     <h4 className="font-semibold text-slate-900 mb-3 text-center">{m.name}</h4>
                     <div className="flex flex-wrap justify-center gap-1 mb-4">
                       {m.tags.map(t => <span key={t} className="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-lg">{t}</span>)}
@@ -363,7 +503,7 @@ const Home = memo(() => {
                     </div>
                   </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
             
             {/* See More/Less Button - hanya tampil di mobile */}
@@ -391,22 +531,37 @@ const Home = memo(() => {
         {/* BLOG */}
         <section id="blog" className="py-16 px-6 bg-white">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">Aktivitas KafeKoding</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5 }}
+              className="text-3xl font-bold text-slate-900 mb-12 text-center"
+            >
+              Aktivitas KafeKoding
+            </motion.h2>
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-3 gap-8"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+            >
               {blogs.slice(0, 3).map((post, i) => (
                 <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.2 }}
-                  key={post.id} 
+                  key={post.id}
+                  variants={itemVariants}
                   onClick={() => navigate(`/blog/${post.id}`)}
                   className="group cursor-pointer bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-xl transition-all flex flex-col h-full"
                 >
-                  <div className="relative rounded-xl overflow-hidden mb-4 shadow-sm aspect-video">
-                    <img src={post.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Blog" />
+                  <motion.div 
+                    className="relative rounded-xl overflow-hidden mb-4 shadow-sm aspect-video"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <img src={post.img} className="w-full h-full object-cover" alt="Blog" />
                     <div className="absolute top-3 left-3 bg-blue-600/90 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg">{post.category}</div>
-                  </div>
+                  </motion.div>
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-slate-500 text-sm mb-2">
                     {post.author && (
                       <div className="flex items-center gap-2">
@@ -427,17 +582,23 @@ const Home = memo(() => {
                   </button>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
             
             {/* Lihat Semua Button */}
-            <div className="text-center mt-12">
+            <motion.div 
+              className="text-center mt-12"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
               <a 
                 href="/blog"
                 className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-700 transition-colors"
               >
                 Lihat Semua Artikel <ArrowRight size={18} />
               </a>
-            </div>
+            </motion.div>
           </div>
         </section>
 

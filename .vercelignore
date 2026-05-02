@@ -2,8 +2,7 @@
 node_modules
 database/node_modules
 
-# Development files
-src
+# Development files (keep src - needed for build!)
 database/api
 database/scripts
 scripts

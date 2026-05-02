@@ -97,12 +97,12 @@ const Blog = () => {
       <section className="pt-32 pb-12 px-6 bg-white relative overflow-hidden">
         {/* Subtle background decoration */}
         <div className="absolute top-0 right-0 -mr-32 -mt-32 w-96 h-96 rounded-full bg-blue-50 blur-3xl opacity-60"></div>
-        <div className="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 rounded-full bg-indigo-50 blur-3xl opacity-60"></div>
+        <div className="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 rounded-full bg-blue-50 blur-3xl opacity-60"></div>
 
         <div className="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-6 leading-tight">
-              Jelajahi <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Tulisan Kami</span>
+              Jelajahi <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600">Tulisan Kami</span>
             </h1>
             <p className="text-lg text-slate-500 max-w-xl">
               Temukan berbagai artikel, tutorial, dan wawasan terbaru seputar dunia teknologi langsung dari anggota KafeKoding Community.
@@ -132,7 +132,7 @@ const Blog = () => {
           ) : filteredBlogs.length === 0 ? (
             <div className="text-center py-24 bg-white rounded-3xl border border-slate-100 shadow-sm">
               <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Search size={32} className="text-blue-500" />
+                <Search size={32} className="text-blue-600" />
               </div>
               <h3 className="text-2xl font-bold text-slate-800 mb-2">Tidak ada artikel ditemukan</h3>
               <p className="text-slate-500">Coba gunakan kata kunci lain untuk pencarian Anda.</p>
@@ -339,7 +339,7 @@ const Blog = () => {
                     placeholder="Ketik judul atau isi artikel..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-16 pr-6 py-5 rounded-2xl bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 outline-none transition-all text-xl font-medium text-slate-800 placeholder:text-slate-400"
+                    className="w-full pl-16 pr-6 py-5 rounded-2xl bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-600 outline-none transition-all text-xl font-medium text-slate-800 placeholder:text-slate-400"
                     autoFocus
                   />
                 </div>

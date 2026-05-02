@@ -277,7 +277,7 @@ const Home = memo(() => {
                     className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center group hover:shadow-xl hover:-translate-y-1 transition-all mb-6"
                   >
                     <div className="mb-4">
-                      <img src={m.img} className="w-20 h-20 rounded-full border-2 border-slate-100 group-hover:border-blue-400 transition-colors" alt={m.name} />
+                      <img src={m.img} className="w-20 h-20 rounded-full border-2 border-slate-100 group-hover:border-blue-600 transition-colors" alt={m.name} />
                     </div>
                     <h4 className="font-semibold text-slate-900 mb-3 text-center">{m.name}</h4>
                     <div className="flex flex-wrap justify-center gap-1 mb-4">
@@ -327,7 +327,7 @@ const Home = memo(() => {
                     className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center group hover:shadow-xl hover:-translate-y-1 transition-all"
                   >
                     <div className="mb-4">
-                      <img src={m.img} className="w-20 h-20 rounded-full border-2 border-slate-100 group-hover:border-blue-400 transition-colors" alt={m.name} />
+                      <img src={m.img} className="w-20 h-20 rounded-full border-2 border-slate-100 group-hover:border-blue-600 transition-colors" alt={m.name} />
                     </div>
                     <h4 className="font-semibold text-slate-900 mb-3 text-center">{m.name}</h4>
                     <div className="flex flex-wrap justify-center gap-1 mb-4">

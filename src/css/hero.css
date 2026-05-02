@@ -48,7 +48,7 @@
 }
 
 .hero-title-highlight {
-  color: #60a5fa;
+  color: #2563eb;
   display: inline-block;
 }
 
@@ -91,14 +91,14 @@
 }
 
 .hero-btn-primary {
-  background: linear-gradient(135deg, #3b82f6, #4f46e5);
+  background: linear-gradient(135deg, #2563eb, #2563eb);
   color: white;
   padding: 1.125rem 2.5rem;
   border-radius: 1rem;
   font-weight: 700;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5);
+  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.1);
   letter-spacing: 0.05em;
 }
